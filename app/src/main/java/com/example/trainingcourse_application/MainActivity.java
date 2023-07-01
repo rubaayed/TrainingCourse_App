@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
                             if(value.getString(2).equals("Admin")){
                                 Toast.makeText(MainActivity.this, "Admin", Toast.LENGTH_SHORT).show();
                             }else if(value.getString(2).equals("Student")){
-                                Toast.makeText(MainActivity.this, "Student", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(MainActivity.this,StudentHome.class);
+                                startActivity(i);
                             }else {
                                 Toast.makeText(MainActivity.this, "Instructor", Toast.LENGTH_SHORT).show();
                             }

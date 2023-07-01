@@ -13,6 +13,11 @@
         android:theme="@style/Theme.TrainingCourse_Application"
         tools:targetApi="31">
         <activity
+            android:name=".StudentHome"
+            android:exported="false"
+            android:label="@string/title_activity_student_home"
+            android:theme="@style/Theme.TrainingCourse_Application.NoActionBar" />
+        <activity
             android:name=".SignUpStudent"
             android:exported="false" />
         <activity
