@@ -12,6 +12,36 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/notifications"
+        android:name="com.example.trainingcourse_application.ui.notifications.NotificationsFragment"
+        android:label="@string/menu_notification"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/courses"
+        android:name="com.example.trainingcourse_application.ui.courses.CoursesFragment"
+        android:label="@string/menu_courses"
+        tools:layout="@layout/fragment_courses" />
+
+    <fragment
+        android:id="@+id/studiedCourses"
+        android:name="com.example.trainingcourse_application.ui.studiedcourses.StudiedcoursesFragment"
+        android:label="@string/menu_studied_courses"
+        tools:layout="@layout/fragment_studiedcourses" />
+
+    <fragment
+        android:id="@+id/coursesHistory"
+        android:name="com.example.trainingcourse_application.ui.courseshistory.CourseshistoryFragment"
+        android:label="@string/menu_courses_history"
+        tools:layout="@layout/fragment_courseshistory" />
+
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.trainingcourse_application.ui.editprofile.EditprofileFragment"
+        android:label="@string/menu_edit_profile"
+        tools:layout="@layout/fragment_editprofile" />
+
+    <fragment
         android:id="@+id/logout"
         android:name="com.example.trainingcourse_application.ui.logout.LogoutFragment"
         android:label="@string/menu_logout"

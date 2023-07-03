@@ -1,6 +1,5 @@
-package com.example.trainingcourse_application.ui.logout;
+package com.example.trainingcourse_application.ui.notifications;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,22 +8,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.trainingcourse_application.MainActivity;
-import com.example.trainingcourse_application.databinding.FragmentLogoutBinding;
+import com.example.trainingcourse_application.databinding.FragmentNotificationsBinding;
 
-public class LogoutFragment extends Fragment {
+public class NotificationsFragment extends Fragment {
 
-    private FragmentLogoutBinding binding;
+    private FragmentNotificationsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentLogoutBinding.inflate(inflater, container, false);
+        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-
-        Intent i = new Intent(getActivity(), MainActivity.class);
-        startActivity(i);
 
         return root;
     }

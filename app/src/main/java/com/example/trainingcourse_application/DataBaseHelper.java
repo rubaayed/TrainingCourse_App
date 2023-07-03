@@ -48,7 +48,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (EMAIL_INST) REFERENCES Instructor(EMAIL))");
 
         db.execSQL("CREATE TABLE Section(SECTION_ID INTEGER PRIMARY KEY AUTOINCREMENT,EMAIL TEXT,COURSE_ID INTEGER," +
-                " REG_DEADLINE INTEGER,START_DATE INTEGER, SCHEDULE TEXT, VENUE TEXT," +
+                " REG_DEADLINE INTEGER,START_DATE INTEGER, SCHEDULE TEXT, VENUE TEXT,END_DATE INTEGER," +
                 "FOREIGN KEY (EMAIL) REFERENCES Instructor(EMAIL)," +
                 "FOREIGN KEY (COURSE_ID) REFERENCES Course(COURSE_ID))");
     }
@@ -180,4 +180,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return null;
     }
+
+    public Cursor getAllAvailableSections(){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT s.SECTION_ID, c.TITLE \n" +
+                "FROM Course c \n" +
+                "JOIN Section s ON c.COURSE_ID = s.COURSE_ID \n" +
+                "WHERE UNIX_TIMESTAMP() < s.REG_DEADLINE;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getSectionInfo(String sectionId){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT s.SECTION_ID,c.COURSE_ID,c.TITLE,c.MAIN_TOPICS,c.IMAGE," +
+                "i.FIRSTNAME, i.LASTNAME, s.REG_DEADLINE, s.START_DATE, s.SCHEDULE , s.VENUE , s.END_DATE \n" +
+                "FROM Course c \n" +
+                "JOIN Section s ON c.COURSE_ID = s.COURSE_ID " +
+                "JOIN Instructor i ON s.EMAIL = i.EMAIL \n" +
+                "WHERE s.SECTION_ID = "+ sectionId +";";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getCoursePrerequisites(String course_id){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT c.COURSE_ID, c.TITLE \n" +
+                "FROM Course c \n" +
+                "JOIN Prerequisite p ON p.ID_1 = c.COURSE_ID;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
 }

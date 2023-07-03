@@ -41,7 +41,8 @@ public class StudentHome extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.home, R.id.logout)
+                R.id.home,R.id.notifications,R.id.courses,R.id.studiedCourses,R.id.coursesHistory,
+                R.id.editProfile,R.id.logout)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_student_home);
