@@ -28,6 +28,10 @@ public class StudentHome extends AppCompatActivity {
         binding = ActivityStudentHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String email = getIntent().getStringExtra("email");
+        StudentHomeEmail.setEmailAddress(email);
+
+
         setSupportActionBar(binding.appBarStudentHome.toolbar);
         binding.appBarStudentHome.fab.setOnClickListener(new View.OnClickListener() {
             @Override

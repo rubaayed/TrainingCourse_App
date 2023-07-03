@@ -8,22 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.trainingcourse_application.DataBaseHelper;
+import com.example.trainingcourse_application.MainActivity;
 import com.example.trainingcourse_application.R;
+import com.example.trainingcourse_application.StudentHomeEmail;
 import com.example.trainingcourse_application.databinding.FragmentCoursesBinding;
 import com.example.trainingcourse_application.listView;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +54,7 @@ public class CoursesFragment extends Fragment {
     TextView courseEndDate;
     ScrollView scrollView;
     ImageView imageView;
+    Button enroll;
 
 
     private EditText text;
@@ -57,6 +63,8 @@ public class CoursesFragment extends Fragment {
 
         binding = FragmentCoursesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        String email = StudentHomeEmail.getEmailAddress();
 
         searchView = root.findViewById(R.id.searchViewCoursesStudent);
         listView = root.findViewById(R.id.listViewCoursesStudent);
@@ -73,6 +81,8 @@ public class CoursesFragment extends Fragment {
         courseEndDate = root.findViewById(R.id.endDateCoursesStudent);
         scrollView = root.findViewById(R.id.scrollView2);
 
+        enroll = root.findViewById(R.id.buttonCoursesStudent);
+
         imageView = root.findViewById(R.id.imageCourseCoursesStudent);
 
         getAllSections();
@@ -88,6 +98,7 @@ public class CoursesFragment extends Fragment {
                 listView.setVisibility(View.GONE);
                 String[] tmp = s.split(":");
                 InsertDataInTextView(tmp[0]);
+                checkIfRegisterPossible(email,courseId.getText().toString());
                 return true;
             }
 
@@ -105,6 +116,14 @@ public class CoursesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = sections.get(position);  // Retrieve the selected value
                 searchView.setQuery(value,false);
+            }
+        });
+
+        enroll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance(getContext());
+                dataBaseHelper.insertEnrollment(email,sectionId.getText().toString(),"Waiting");
             }
         });
 
@@ -179,5 +198,71 @@ public class CoursesFragment extends Fragment {
         date = new Date(SectionInfo.getInt(11) * 1000);
         dateString = dateFormat.format(date);
         courseEndDate.setText(dateString);
+    }
+
+    public void checkIfRegisterPossible(String email, String course_id){
+        boolean flag = true;
+        DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance(getContext());
+        Cursor course_Prerequisites = dataBaseHelper.getCoursePrerequisites(course_id);
+        while (course_Prerequisites.moveToNext()){
+            String tmp = course_Prerequisites.getString(0);
+            Cursor endDate = dataBaseHelper.getEndDateOfSection(email,tmp);
+
+            long currentSeconds = Instant.now().getEpochSecond();
+
+            if(currentSeconds < endDate.getInt(0)){
+                flag = false;
+                break;
+            }
+        }
+
+        Cursor allCurrentCourses = dataBaseHelper.getCurrentCourses(email,courseStartDate.getText().toString(),
+                courseEndDate.getText().toString());
+
+        while (allCurrentCourses.moveToNext()){
+            String tmp = allCurrentCourses.getString(0);
+            boolean hasConflict = checkTimeSlotConflict(courseSchedule.getText().toString(), tmp);
+            if(hasConflict){
+                flag = false;
+                break;
+            }
+        }
+        if(!flag){
+            enroll.setEnabled(false);
+            Toast.makeText(getActivity(), "Note that you can't enroll in this Section",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else
+            enroll.setEnabled(true);
+    }
+    public static boolean checkTimeSlotConflict(String timeSlot1, String timeSlot2) {
+        String[] parts1 = timeSlot1.split("-");
+        String[] parts2 = timeSlot2.split("-");
+
+        String from1 = parts1[0];
+        String to1 = parts1[1];
+
+        String from2 = parts2[0];
+        String to2 = parts2[1];
+
+        // Convert the time strings to minutes
+        int from1Minutes = convertToMinutes(from1);
+        int to1Minutes = convertToMinutes(to1);
+        int from2Minutes = convertToMinutes(from2);
+        int to2Minutes = convertToMinutes(to2);
+
+        // Check for conflicts
+        boolean hasConflict = (from1Minutes >= from2Minutes && from1Minutes < to2Minutes)
+                || (to1Minutes > from2Minutes && to1Minutes <= to2Minutes)
+                || (from1Minutes <= from2Minutes && to1Minutes >= to2Minutes);
+
+        return hasConflict;
+    }
+
+    public static int convertToMinutes(String time) {
+        String[] parts = time.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        return hours * 60 + minutes;
     }
 }

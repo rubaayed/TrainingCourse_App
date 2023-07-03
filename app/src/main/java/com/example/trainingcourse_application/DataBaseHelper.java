@@ -11,7 +11,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static DataBaseHelper instance;
 
-    public DataBaseHelper(Context context) {
+    private DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -51,6 +51,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 " REG_DEADLINE INTEGER,START_DATE INTEGER, SCHEDULE TEXT, VENUE TEXT,END_DATE INTEGER," +
                 "FOREIGN KEY (EMAIL) REFERENCES Instructor(EMAIL)," +
                 "FOREIGN KEY (COURSE_ID) REFERENCES Course(COURSE_ID))");
+
+        db.execSQL("CREATE TABLE Enrollment(SECTION_ID INTEGER ,EMAIL TEXT," +
+                " STATUS TEXT, PRIMARY KEY (SECTION_ID,EMAIL)," +
+                "FOREIGN KEY (EMAIL) REFERENCES Student(EMAIL)," +
+                "FOREIGN KEY (SECTION_ID) REFERENCES Section(SECTION_ID))");
     }
 
     @Override
@@ -148,6 +153,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert("Section", null, contentValues);
     }
 
+    public void insertEnrollment(String email, String section_id, String status) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("SECTION_ID", section_id);
+        contentValues.put("EMAIL", email);
+        contentValues.put("STATUS", status);
+
+        sqLiteDatabase.insert("Enrollment", null, contentValues);
+    }
+
     public boolean checkUserExists(String email) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
 
@@ -206,6 +221,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String query = "SELECT c.COURSE_ID, c.TITLE \n" +
                 "FROM Course c \n" +
                 "JOIN Prerequisite p ON p.ID_1 = c.COURSE_ID;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getEndDateOfSection(String email,String course_id){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT s.END_DATE \n" +
+                "FROM Section s \n" +
+                "JOIN Enrollment e ON e.COURSE_ID = s.COURSE_ID \n" +
+                "WHERE e.EMAIL = '"+ email +"' and e.COURSE_ID = " + course_id + " ;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getCurrentCourses(String email, String start_date, String end_date){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT s.SCHEDULE \n" +
+                "FROM Section s \n" +
+                "JOIN Enrollment e ON e.COURSE_ID = s.COURSE_ID \n" +
+                "WHERE e.EMAIL = '"+ email +"' and (" +
+                "( " + start_date + " >= s.START_DATE and " + start_date + " <= s.END_DATE ) OR " +
+                "( " + end_date + " >= s.START_DATE and " + end_date + " <= s.END_DATE ) OR " +
+                "( " + start_date + " < s.START_DATE and " + end_date + " > s.END_DATE ));";
         return sqLiteDatabase.rawQuery(query, null);
     }
 
