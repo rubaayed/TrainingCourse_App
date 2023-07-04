@@ -94,12 +94,15 @@ public class CoursesFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                scrollView.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
-                String[] tmp = s.split(":");
-                InsertDataInTextView(tmp[0]);
-                checkIfRegisterPossible(email,courseId.getText().toString());
-                return true;
+                if(sections != null && sections.contains(s)) {
+                    scrollView.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                    String[] tmp = s.split(":");
+                    InsertDataInTextView(tmp[0]);
+                    checkIfRegisterPossible(email, courseId.getText().toString());
+                    return true;
+                }
+                return false;
             }
 
             @Override
@@ -178,6 +181,9 @@ public class CoursesFragment extends Fragment {
             tmp += ": ";
             tmp += course_Prerequisites.getString(1);
             pre += tmp + "\n";
+        }
+        if( pre.equals("")){
+            pre = "Course has No Prerequisites";
         }
         coursePrerequisites.setText(pre);
         String nameInstructor = SectionInfo.getString(5) + " " + SectionInfo.getString(6);

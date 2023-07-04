@@ -245,4 +245,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.rawQuery(query, null);
     }
 
+    public Cursor getAllStudiedCourses(String email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT s.SECTION_ID, c.TITLE \n" +
+                "FROM Course c \n" +
+                "JOIN Section s ON c.COURSE_ID = s.COURSE_ID \n" +
+                "JOIN Enrollment e ON s.EMAIL = e.EMAIL \n" +
+                "WHERE e.EMAIL = '" + email + "' and e.STATUS = 'Accepted' and " +
+                " UNIX_TIMESTAMP() > s.END_DATE ;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
 }
