@@ -256,4 +256,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.rawQuery(query, null);
     }
 
+    public Cursor getAllSections(){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT  s.SECTION_ID, c.TITLE " +
+                "FROM Course c \n" +
+                "JOIN Section s ON c.COURSE_ID = s.COURSE_ID;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
 }

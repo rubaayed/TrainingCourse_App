@@ -45,7 +45,7 @@
         tools:visibility="visible" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView2CoursesStudent"
         android:layout_width="0dp"
         android:layout_height="550dp"
         android:layout_marginStart="8dp"

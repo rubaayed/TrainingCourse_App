@@ -79,7 +79,7 @@ public class CoursesFragment extends Fragment {
         courseSchedule = root.findViewById(R.id.scheduleCoursesStudent);
         courseVenue = root.findViewById(R.id.venueCoursesStudent);
         courseEndDate = root.findViewById(R.id.endDateCoursesStudent);
-        scrollView = root.findViewById(R.id.scrollView2);
+        scrollView = root.findViewById(R.id.scrollView2CoursesStudent);
 
         enroll = root.findViewById(R.id.buttonCoursesStudent);
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -55,21 +56,21 @@ public class StudiedcoursesFragment extends Fragment {
 
         String email = StudentHomeEmail.getEmailAddress();
 
-        searchView = root.findViewById(R.id.searchViewCoursesStudent);
-        listView = root.findViewById(R.id.listViewCoursesStudent);
-        sectionId = root.findViewById(R.id.sectionIdCoursesStudent);
-        courseId = root.findViewById(R.id.courseIdCoursesStudent);
-        courseTitle = root.findViewById(R.id.courseTitleCoursesStudent);
-        courseMainTopics = root.findViewById(R.id.mainTopicsCoursesStudent);
-        coursePrerequisites = root.findViewById(R.id.prerequisitesCoursesStudent);
-        courseInstructorName = root.findViewById(R.id.instructorCoursesStudent);
-        courseRegistrationDeadline = root.findViewById(R.id.regdeadlineCoursesStudent);
-        courseStartDate = root.findViewById(R.id.startDateCoursesStudent);
-        courseSchedule = root.findViewById(R.id.scheduleCoursesStudent);
-        courseVenue = root.findViewById(R.id.venueCoursesStudent);
-        courseEndDate = root.findViewById(R.id.endDateCoursesStudent);
-        scrollView = root.findViewById(R.id.scrollView2);
-        imageView = root.findViewById(R.id.imageCourseCoursesStudent);
+        searchView = root.findViewById(R.id.searchViewStudiedCoursesStudent);
+        listView = root.findViewById(R.id.listViewStudiedCoursesStudent);
+        sectionId = root.findViewById(R.id.sectionIdStudiedCoursesStudent);
+        courseId = root.findViewById(R.id.courseIdStudiedCoursesStudent);
+        courseTitle = root.findViewById(R.id.courseTitleStudiedCoursesStudent);
+        courseMainTopics = root.findViewById(R.id.mainTopicsStudiedCoursesStudent);
+        coursePrerequisites = root.findViewById(R.id.prerequisitesStudiedCoursesStudent);
+        courseInstructorName = root.findViewById(R.id.instructorStudiedCoursesStudent);
+        courseRegistrationDeadline = root.findViewById(R.id.regdeadlineStudiedCoursesStudent);
+        courseStartDate = root.findViewById(R.id.startDateStudiedCoursesStudent);
+        courseSchedule = root.findViewById(R.id.scheduleStudiedCoursesStudent);
+        courseVenue = root.findViewById(R.id.venueStudiedCoursesStudent);
+        courseEndDate = root.findViewById(R.id.endDateStudiedCoursesStudent);
+        scrollView = root.findViewById(R.id.scrollView2StudiedCoursesStudent);
+        imageView = root.findViewById(R.id.imageCourseStudiedCoursesStudent);
 
         AllStudiedCourses(email);
 
@@ -95,6 +96,14 @@ public class StudiedcoursesFragment extends Fragment {
                 scrollView.setVisibility(View.INVISIBLE);
                 adapter.getFilter().filter(s);
                 return false;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = studiedCourses.get(position);  // Retrieve the selected value
+                searchView.setQuery(value,false);
             }
         });
 
