@@ -75,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
                                 sharedPrefManager.writeString("password",password.getText().toString());
                             }
                             if(value.getString(2).equals("Admin")){
-                                Toast.makeText(MainActivity.this, "Admin", Toast.LENGTH_SHORT).show();
-                            }else if(value.getString(2).equals("Student")){
+                                Intent intent = new Intent(MainActivity.this,AdminHome.class);
+                                intent.putExtra("email", email.getText().toString());
+                                startActivity(intent);                            }else if(value.getString(2).equals("Student")){
                                 Intent intent = new Intent(MainActivity.this,StudentHome.class);
                                 intent.putExtra("email", email.getText().toString());
                                 startActivity(intent);

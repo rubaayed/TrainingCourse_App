@@ -1,9 +1,9 @@
-package com.example.trainingcourse_application.ui.studiedcourses;
+package com.example.trainingcourse_application.student.courseshistory;
+
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,20 +21,19 @@ import androidx.fragment.app.Fragment;
 
 import com.example.trainingcourse_application.DataBaseHelper;
 import com.example.trainingcourse_application.R;
-import com.example.trainingcourse_application.StudentHomeEmail;
-import com.example.trainingcourse_application.databinding.FragmentStudiedcoursesBinding;
+import com.example.trainingcourse_application.databinding.FragmentCourseshistoryBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class StudiedcoursesFragment extends Fragment {
+public class CourseshistoryFragment extends Fragment {
 
-    private FragmentStudiedcoursesBinding binding;
+    private FragmentCourseshistoryBinding binding;
 
     SearchView searchView;
     ListView listView;
-    ArrayList<String> studiedCourses;
+    ArrayList<String> allCourses;
     ArrayAdapter<String> adapter;
     TextView sectionId;
     TextView courseId;
@@ -53,36 +52,33 @@ public class StudiedcoursesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentStudiedcoursesBinding.inflate(inflater, container, false);
+        binding = FragmentCourseshistoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        String email = StudentHomeEmail.getEmailAddress();
+        searchView = root.findViewById(R.id.searchViewCoursesHistoryStudent);
+        listView = root.findViewById(R.id.listViewCoursesHistoryStudent);
+        sectionId = root.findViewById(R.id.sectionIdCoursesHistoryStudent);
+        courseId = root.findViewById(R.id.courseIdCoursesHistoryStudent);
+        courseTitle = root.findViewById(R.id.courseTitleCoursesHistoryStudent);
+        courseMainTopics = root.findViewById(R.id.mainTopicsCoursesHistoryStudent);
+        coursePrerequisites = root.findViewById(R.id.prerequisitesCoursesHistoryStudent);
+        courseInstructorName = root.findViewById(R.id.instructorCoursesHistoryStudent);
+        courseRegistrationDeadline = root.findViewById(R.id.regdeadlineCoursesHistoryStudent);
+        courseStartDate = root.findViewById(R.id.startDateCoursesHistoryStudent);
+        courseSchedule = root.findViewById(R.id.scheduleCoursesHistoryStudent);
+        courseVenue = root.findViewById(R.id.venueCoursesHistoryStudent);
+        courseEndDate = root.findViewById(R.id.endDateCoursesHistoryStudent);
+        scrollView = root.findViewById(R.id.scrollView2CoursesHistoryStudent);
+        imageView = root.findViewById(R.id.imageCourseCoursesHistoryStudent);
 
-        searchView = root.findViewById(R.id.searchViewStudiedCoursesStudent);
-        listView = root.findViewById(R.id.listViewStudiedCoursesStudent);
-        sectionId = root.findViewById(R.id.sectionIdStudiedCoursesStudent);
-        courseId = root.findViewById(R.id.courseIdStudiedCoursesStudent);
-        courseTitle = root.findViewById(R.id.courseTitleStudiedCoursesStudent);
-        courseMainTopics = root.findViewById(R.id.mainTopicsStudiedCoursesStudent);
-        coursePrerequisites = root.findViewById(R.id.prerequisitesStudiedCoursesStudent);
-        courseInstructorName = root.findViewById(R.id.instructorStudiedCoursesStudent);
-        courseRegistrationDeadline = root.findViewById(R.id.regdeadlineStudiedCoursesStudent);
-        courseStartDate = root.findViewById(R.id.startDateStudiedCoursesStudent);
-        courseSchedule = root.findViewById(R.id.scheduleStudiedCoursesStudent);
-        courseVenue = root.findViewById(R.id.venueStudiedCoursesStudent);
-        courseEndDate = root.findViewById(R.id.endDateStudiedCoursesStudent);
-        scrollView = root.findViewById(R.id.scrollView2StudiedCoursesStudent);
-        imageView = root.findViewById(R.id.imageCourseStudiedCoursesStudent);
-
-        AllStudiedCourses(email);
-
+        AllCourses();
 
         scrollView.setVisibility(View.INVISIBLE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                if(studiedCourses != null && studiedCourses.contains(s)) {
+                if(allCourses != null && allCourses.contains(s)) {
                     scrollView.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                     String[] tmp = s.split(":");
@@ -104,11 +100,10 @@ public class StudiedcoursesFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String value = studiedCourses.get(position);  // Retrieve the selected value
+                String value = allCourses.get(position);  // Retrieve the selected value
                 searchView.setQuery(value,false);
             }
         });
-
 
         return root;
     }
@@ -119,23 +114,23 @@ public class StudiedcoursesFragment extends Fragment {
         binding = null;
     }
 
-    void AllStudiedCourses(String email){
+    void AllCourses(){
         DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance(getContext());
-        if(studiedCourses != null)
-            studiedCourses.clear();
+        if(allCourses != null)
+            allCourses.clear();
         else
-            studiedCourses = new ArrayList<>();
+            allCourses = new ArrayList<>();
 
-        Cursor allCoursesCursor = dataBaseHelper.getAllStudiedCourses(email);
-        while (allCoursesCursor.moveToNext()){
-            String tmp = allCoursesCursor.getString(0);
+        Cursor allSectionsCursor = dataBaseHelper.getAllSections();
+        while (allSectionsCursor.moveToNext()){
+            String tmp = allSectionsCursor.getString(0);
             tmp += ": ";
-            tmp += allCoursesCursor.getString(1);
-            studiedCourses.add(tmp);
+            tmp += allSectionsCursor.getString(1);
+            allCourses.add(tmp);
         }
 
-        if(studiedCourses != null) {
-            adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, studiedCourses);
+        if(allCourses != null) {
+            adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, allCourses);
             listView.setAdapter(adapter);
         }
     }

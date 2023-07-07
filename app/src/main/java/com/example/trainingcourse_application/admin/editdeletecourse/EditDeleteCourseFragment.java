@@ -1,4 +1,4 @@
-package com.example.trainingcourse_application.ui.notifications;
+package com.example.trainingcourse_application.admin.editdeletecourse;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,16 +8,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.trainingcourse_application.databinding.FragmentNotificationsBinding;
+import com.example.trainingcourse_application.databinding.FragmentEditdeletecourseBinding;
 
-public class NotificationsFragment extends Fragment {
+public class EditDeleteCourseFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentEditdeletecourseBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentEditdeletecourseBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;

@@ -15,4 +15,13 @@
     <string name="menu_studied_courses">Studied Courses</string>
     <string name="menu_courses_history">Courses History</string>
     <string name="menu_edit_profile">Edit Profile</string>
+
+    <string name="title_activity_admin_home">AdminHome</string>
+    <string name="menu_create_course">Create Course</string>
+    <string name="menu_edit_delete_course">Edit/Delete Course</string>
+    <string name="menu_create_section">Create Section</string>
+    <string name="menu_accept_reject_applicants">Accept/Reject Applicants</string>
+    <string name="menu_view_profiles">View Profiles</string>
+    <string name="menu_history_course">History of a course</string>
+
 </resources>

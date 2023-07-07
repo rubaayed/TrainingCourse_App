@@ -1,9 +1,8 @@
-package com.example.trainingcourse_application.ui.courses;
+package com.example.trainingcourse_application.student.courses;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,15 +22,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.trainingcourse_application.DataBaseHelper;
-import com.example.trainingcourse_application.MainActivity;
 import com.example.trainingcourse_application.R;
 import com.example.trainingcourse_application.StudentHomeEmail;
 import com.example.trainingcourse_application.databinding.FragmentCoursesBinding;
-import com.example.trainingcourse_application.listView;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -148,6 +144,7 @@ public class CoursesFragment extends Fragment {
             sections.clear();
         else
             sections = new ArrayList<>();
+
 
         Cursor allSectionsCursor = dataBaseHelper.getAllAvailableSections();
         while (allSectionsCursor.moveToNext()){

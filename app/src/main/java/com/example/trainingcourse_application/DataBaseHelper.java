@@ -197,11 +197,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllAvailableSections(){
+        long currentTimeMillis = System.currentTimeMillis();
+        long timeInSecond = currentTimeMillis / 1000;
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         String query = "SELECT s.SECTION_ID, c.TITLE \n" +
                 "FROM Course c \n" +
                 "JOIN Section s ON c.COURSE_ID = s.COURSE_ID \n" +
-                "WHERE UNIX_TIMESTAMP() < s.REG_DEADLINE;";
+                "WHERE " + timeInSecond + " < s.REG_DEADLINE;";
         return sqLiteDatabase.rawQuery(query, null);
     }
 
@@ -220,7 +222,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         String query = "SELECT c.COURSE_ID, c.TITLE \n" +
                 "FROM Course c \n" +
-                "JOIN Prerequisite p ON p.ID_1 = c.COURSE_ID;";
+                "JOIN Prerequisite p ON p.ID_1 = c.COURSE_ID \n" +
+                "WHERE c.COURSE_ID = " + course_id + " ;";
         return sqLiteDatabase.rawQuery(query, null);
     }
 
@@ -247,12 +250,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAllStudiedCourses(String email){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        long currentTimeMillis = System.currentTimeMillis();
+        long timeInSecond = currentTimeMillis / 1000;
         String query = "SELECT s.SECTION_ID, c.TITLE \n" +
                 "FROM Course c \n" +
                 "JOIN Section s ON c.COURSE_ID = s.COURSE_ID \n" +
                 "JOIN Enrollment e ON s.EMAIL = e.EMAIL \n" +
                 "WHERE e.EMAIL = '" + email + "' and e.STATUS = 'Accepted' and " +
-                " UNIX_TIMESTAMP() > s.END_DATE ;";
+                " " + timeInSecond + " > s.END_DATE ;";
         return sqLiteDatabase.rawQuery(query, null);
     }
 
