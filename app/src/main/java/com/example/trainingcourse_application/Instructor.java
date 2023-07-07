@@ -7,7 +7,7 @@ public class Instructor {
     private String email;
     private String firstName;
     private String lastName;
-    private String personalPhoto;
+    private byte[] personalPhoto;
     private String mobile;
     private String address;
     private String specialization;
@@ -19,7 +19,7 @@ public class Instructor {
 
     }
 
-    public Instructor(String email,String firstName, String lastName, String personalPhoto,
+    public Instructor(String email,String firstName, String lastName, byte[] personalPhoto,
                       String mobile, String address, String specialization, String degree,ArrayList<String> coursesCanTeach){
         this.email = email;
         this.firstName = firstName;
@@ -56,11 +56,11 @@ public class Instructor {
         this.lastName = lastName;
     }
 
-    public String getPersonalPhoto() {
+    public byte[] getPersonalPhoto() {
         return personalPhoto;
     }
 
-    public void setPersonalPhoto(String personalPhoto) {
+    public void setPersonalPhoto(byte[] personalPhoto) {
         this.personalPhoto = personalPhoto;
     }
 

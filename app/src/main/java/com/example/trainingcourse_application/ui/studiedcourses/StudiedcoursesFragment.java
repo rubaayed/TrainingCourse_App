@@ -1,6 +1,8 @@
 package com.example.trainingcourse_application.ui.studiedcourses;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -148,8 +150,9 @@ public class StudiedcoursesFragment extends Fragment {
         courseTitle.setText(SectionInfo.getString(2));
         courseMainTopics.setText(SectionInfo.getString(3));
 
-        Uri imageUri = Uri.parse(SectionInfo.getString(4));
-        imageView.setImageURI(imageUri);
+        byte[] imageBytes = SectionInfo.getBlob(4);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        imageView.setImageBitmap(bitmap);
 
         String pre = "";
         Cursor course_Prerequisites = dataBaseHelper.getCoursePrerequisites(String.valueOf(SectionInfo.getInt(1)));

@@ -6,4 +6,6 @@
     <color name="purple">#8692f7</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+
 </resources>

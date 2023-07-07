@@ -5,13 +5,13 @@ public class Admin {
     private String email;
     private String firstName;
     private String lastName;
-    private String personalPhoto;
+    private byte[] personalPhoto;
 
     public Admin(){
 
     }
 
-    public Admin(String email,String firstName, String lastName, String personalPhoto){
+    public Admin(String email,String firstName, String lastName, byte[] personalPhoto){
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,11 +42,11 @@ public class Admin {
         this.lastName = lastName;
     }
 
-    public String getPersonalPhoto() {
+    public byte[] getPersonalPhoto() {
         return personalPhoto;
     }
 
-    public void setPersonalPhoto(String personalPhoto) {
+    public void setPersonalPhoto(byte[] personalPhoto) {
         this.personalPhoto = personalPhoto;
     }
 }

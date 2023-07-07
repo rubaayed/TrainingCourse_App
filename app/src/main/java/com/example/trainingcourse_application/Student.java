@@ -5,7 +5,7 @@ public class Student {
     private String email;
     private String firstName;
     private String lastName;
-    private String personalPhoto;
+    private byte[] personalPhoto;
     private String mobile;
     private String address;
 
@@ -13,7 +13,7 @@ public class Student {
 
     }
 
-    public Student(String email,String firstName, String lastName, String personalPhoto,
+    public Student(String email,String firstName, String lastName, byte[] personalPhoto,
                    String mobile, String address){
         this.email = email;
         this.firstName = firstName;
@@ -47,11 +47,11 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public String getPersonalPhoto() {
+    public byte[] getPersonalPhoto() {
         return personalPhoto;
     }
 
-    public void setPersonalPhoto(String personalPhoto) {
+    public void setPersonalPhoto(byte[] personalPhoto) {
         this.personalPhoto = personalPhoto;
     }
 

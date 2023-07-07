@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -19,6 +20,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SignUpInstructor extends AppCompatActivity {
@@ -26,6 +30,7 @@ public class SignUpInstructor extends AppCompatActivity {
     ArrayList<String> selectedValues;
     private static final int PICK_IMAGE_REQUEST = 1;  // Request code for image selection
     Uri imageUri = null;
+    byte [] imageBytes;
     private static final int PICK_listView_REQUEST = 2;  // Request code for image selection
 
     String[] items = {"BSc","MSc","PhD"};
@@ -195,7 +200,7 @@ public class SignUpInstructor extends AppCompatActivity {
                         newInstructor.setEmail(email.getText().toString());
                         newInstructor.setFirstName(firstName.getText().toString());
                         newInstructor.setLastName(lastName.getText().toString());
-                        newInstructor.setPersonalPhoto(imageUri.toString());
+                        newInstructor.setPersonalPhoto(imageBytes);
                         newInstructor.setMobile(mobile.getText().toString());
                         newInstructor.setAddress(address.getText().toString());
                         newInstructor.setSpecialization(specialization.getText().toString());
@@ -224,7 +229,17 @@ public class SignUpInstructor extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             chosenImageFlag = true;
             imageUri = data.getData();
-            // Perform desired action with the selected image URI (e.g., display the image)
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                // Convert the bitmap to byte array
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                imageBytes = stream.toByteArray();
+            }  catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         else if (requestCode == PICK_listView_REQUEST && resultCode == Activity.RESULT_OK) {
             selectedValues = data.getStringArrayListExtra("selectedValues");

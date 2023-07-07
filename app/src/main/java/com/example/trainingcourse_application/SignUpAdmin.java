@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -17,11 +18,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class SignUpAdmin extends AppCompatActivity {
 
 
     private static final int PICK_IMAGE_REQUEST = 1;  // Request code for image selection
     Uri imageUri = null;
+    byte[] imageBytes;
     private Button selectImageButton;
     private Button register;
 
@@ -132,7 +138,7 @@ public class SignUpAdmin extends AppCompatActivity {
                         newAdmin.setEmail(email.getText().toString());
                         newAdmin.setFirstName(firstName.getText().toString());
                         newAdmin.setLastName(lastName.getText().toString());
-                        newAdmin.setPersonalPhoto(imageUri.toString());
+                        newAdmin.setPersonalPhoto(imageBytes);
 
                         dataBaseHelper.insertUser(newUser);
                         dataBaseHelper.insertAdmin(newAdmin);
@@ -153,6 +159,17 @@ public class SignUpAdmin extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             chosenImageFlag = true;
             imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                // Convert the bitmap to byte array
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                imageBytes = stream.toByteArray();
+            }  catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

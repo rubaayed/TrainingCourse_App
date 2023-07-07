@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -15,11 +16,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class SignUpStudent extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;  // Request code for image selection
     Uri imageUri = null;
-
+    byte[] imageBytes;
     private Button register;
     private Button selectImageButton;
     boolean chosenImageFlag = false;
@@ -144,7 +149,7 @@ public class SignUpStudent extends AppCompatActivity {
                         newStudent.setEmail(email.getText().toString());
                         newStudent.setFirstName(firstName.getText().toString());
                         newStudent.setLastName(lastName.getText().toString());
-                        newStudent.setPersonalPhoto(imageUri.toString());
+                        newStudent.setPersonalPhoto(imageBytes);
                         newStudent.setMobile(mobile.getText().toString());
                         newStudent.setAddress(address.getText().toString());
 
@@ -166,7 +171,17 @@ public class SignUpStudent extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             chosenImageFlag = true;
             imageUri = data.getData();
-            // Perform desired action with the selected image URI (e.g., display the image)
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                // Convert the bitmap to byte array
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                imageBytes = stream.toByteArray();
+            }  catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

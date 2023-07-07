@@ -5,13 +5,13 @@ public class Course {
     private int id;
     private String title;
     private String mainTopics;
-    private String image;
+    private byte[] image;
 
     public Course(){
 
     }
 
-    public Course(int id, String title, String mainTopics, String image){
+    public Course(int id, String title, String mainTopics, byte[] image){
         this.id = id;
         this.title = title;
         this.mainTopics = mainTopics;
@@ -38,11 +38,11 @@ public class Course {
         this.mainTopics = mainTopics;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 }

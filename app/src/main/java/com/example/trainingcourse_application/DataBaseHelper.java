@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "Kareem_Ruba_Center";
+    private static final String DATABASE_NAME = "test2";
     private static final int DATABASE_VERSION = 1;
     private static DataBaseHelper instance;
 
@@ -16,7 +16,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public static synchronized DataBaseHelper getInstance(Context context) {
-        if (instance == null) {
+        if (instance == null || !instance.getDatabaseName().equals(DATABASE_NAME)) {
             instance = new DataBaseHelper(context.getApplicationContext());
         }
         return instance;
@@ -26,18 +26,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE User(EMAIL TEXT PRIMARY KEY,PASSWORD TEXT, TYPE TEXT)");
 
-        db.execSQL("CREATE TABLE Student(EMAIL TEXT PRIMARY KEY,FIRST_NAME TEXT, LAST_NAME TEXT,IMAGE TEXT," +
+        db.execSQL("CREATE TABLE Student(EMAIL TEXT PRIMARY KEY,FIRST_NAME TEXT, LAST_NAME TEXT,IMAGE BLOB," +
                 "MOBILE TEXT, ADDRESS TEXT," +
                 "FOREIGN KEY (EMAIL) REFERENCES User(EMAIL))");
 
-        db.execSQL("CREATE TABLE Admin(EMAIL TEXT PRIMARY KEY,FIRST_NAME TEXT, LAST_NAME TEXT,IMAGE TEXT," +
+        db.execSQL("CREATE TABLE Admin(EMAIL TEXT PRIMARY KEY,FIRST_NAME TEXT, LAST_NAME TEXT,IMAGE BLOB," +
                 "FOREIGN KEY (EMAIL) REFERENCES User(EMAIL))");
 
-        db.execSQL("CREATE TABLE Instructor(EMAIL TEXT PRIMARY KEY,FIRST_NAME TEXT, LAST_NAME TEXT,IMAGE TEXT," +
+        db.execSQL("CREATE TABLE Instructor(EMAIL TEXT PRIMARY KEY,FIRST_NAME TEXT, LAST_NAME TEXT,IMAGE BLOB," +
                 "MOBILE TEXT, ADDRESS TEXT, SPECIALIZATION TEXT, DEGREE TEXT," +
                 "FOREIGN KEY (EMAIL) REFERENCES User(EMAIL))");
 
-        db.execSQL("CREATE TABLE Course(COURSE_ID INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT,MAIN_TOPICS TEXT,IMAGE TEXT)");
+        db.execSQL("CREATE TABLE Course(COURSE_ID INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT,MAIN_TOPICS TEXT,IMAGE BLOB)");
 
         db.execSQL("CREATE TABLE Prerequisite(ID_1 INTEGER,ID_PRE INTEGER, PRIMARY KEY (ID_1,ID_PRE)," +
                 "FOREIGN KEY (ID_1) REFERENCES Course(COURSE_ID)," +
@@ -262,5 +262,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "FROM Course c \n" +
                 "JOIN Section s ON c.COURSE_ID = s.COURSE_ID;";
         return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getStudentInfo(String email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT  s.FIRST_NAME, s.LAST_NAME, s.MOBILE, s.ADDRESS, u.PASSWORD ,s.IMAGE " +
+                "FROM User u \n" +
+                "JOIN Student s ON s.EMAIL = u.EMAIL \n" +
+                "WHERE s.EMAIL = '" + email + "' ;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public void editData(String table, String condition, String column, String newValue, String keyCol){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(column, newValue);
+
+        sqLiteDatabase.update(table, values, keyCol + " = ?", new String[]{condition});
+    }
+
+
+    public void editDataImage(String table, String condition, String column, byte[] newValue, String keyCol) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(column, newValue);
+
+        sqLiteDatabase.update(table, values, keyCol + " = ?", new String[]{condition});
     }
 }

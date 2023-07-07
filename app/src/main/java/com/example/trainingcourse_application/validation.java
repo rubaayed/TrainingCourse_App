@@ -11,41 +11,41 @@ public class validation {
     private static final Pattern patternPass = Pattern.compile(PASSWORD_PATTERN);
 
 
-    protected static boolean checkEmail(String email){
+    public static boolean checkEmail(String email){
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
-    protected static boolean checkFirstName(String name){
+    public static boolean checkFirstName(String name){
         if(name.length() < 3 || name.length() > 20)
             return false;
         return true;
     }
 
-    protected static boolean checkLastName(String name){
+    public static boolean checkLastName(String name){
         if(name.length() < 3 || name.length() > 20)
             return false;
         return true;
     }
 
-    protected static boolean checkPassword(String password){
+    public static boolean checkPassword(String password){
         Matcher matcher = patternPass.matcher(password);
         return matcher.matches();
     }
 
-    protected static boolean checkMobile(String mobile){
+    public static boolean checkMobile(String mobile){
         if(!mobile.matches("\\d+") || mobile.length() != 10)
             return false;
         return true;
     }
 
-    protected static boolean checkAddress(String address){
+    public static boolean checkAddress(String address){
         if(address.length() > 32 || address == null || address.length() == 0)
             return false;
         return true;
     }
 
-    protected static boolean checkSpecialization(String specialization){
+    public static boolean checkSpecialization(String specialization){
         if(specialization.length() > 32 || specialization == null || specialization.length() == 0)
             return false;
         return true;
