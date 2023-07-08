@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "test2";
+    private static final String DATABASE_NAME = "test3";
     private static final int DATABASE_VERSION = 1;
     private static DataBaseHelper instance;
 
@@ -48,7 +48,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (EMAIL_INST) REFERENCES Instructor(EMAIL))");
 
         db.execSQL("CREATE TABLE Section(SECTION_ID INTEGER PRIMARY KEY AUTOINCREMENT,EMAIL TEXT,COURSE_ID INTEGER," +
-                " REG_DEADLINE INTEGER,START_DATE INTEGER, SCHEDULE TEXT, VENUE TEXT,END_DATE INTEGER," +
+                " REG_DEADLINE LONG,START_DATE LONG, SCHEDULE TEXT, VENUE TEXT,END_DATE LONG," +
                 "FOREIGN KEY (EMAIL) REFERENCES Instructor(EMAIL)," +
                 "FOREIGN KEY (COURSE_ID) REFERENCES Course(COURSE_ID))");
 
