@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+
+
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "test3";
     private static final int DATABASE_VERSION = 1;
@@ -33,11 +35,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE Admin(EMAIL TEXT PRIMARY KEY,FIRST_NAME TEXT, LAST_NAME TEXT,IMAGE BLOB," +
                 "FOREIGN KEY (EMAIL) REFERENCES User(EMAIL))");
 
+
         db.execSQL("CREATE TABLE Instructor(EMAIL TEXT PRIMARY KEY,FIRST_NAME TEXT, LAST_NAME TEXT,IMAGE BLOB," +
                 "MOBILE TEXT, ADDRESS TEXT, SPECIALIZATION TEXT, DEGREE TEXT," +
                 "FOREIGN KEY (EMAIL) REFERENCES User(EMAIL))");
 
+
         db.execSQL("CREATE TABLE Course(COURSE_ID INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT,MAIN_TOPICS TEXT,IMAGE BLOB)");
+
 
         db.execSQL("CREATE TABLE Prerequisite(ID_1 INTEGER,ID_PRE INTEGER, PRIMARY KEY (ID_1,ID_PRE)," +
                 "FOREIGN KEY (ID_1) REFERENCES Course(COURSE_ID)," +
@@ -297,3 +302,5 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(table, values, keyCol + " = ?", new String[]{condition});
     }
 }
+
+
