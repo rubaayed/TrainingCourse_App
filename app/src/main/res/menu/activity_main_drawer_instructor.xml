@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/baseline_home_24"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/previousTaughtCourses"
+            android:icon="@drawable/baseline_co_present_24"
+            android:title="@string/menu_previous_taught_courses" />
+        <item
+            android:id="@+id/schedule"
+            android:icon="@drawable/baseline_school_24"
+            android:title="@string/menu_schedule" />
+        <item
+            android:id="@+id/listStudentsCourse"
+            android:icon="@drawable/baseline_groups_24"
+            android:title="@string/menu_list_students_course" />
+        <item
+            android:id="@+id/editProfileInstructor"
+            android:icon="@drawable/baseline_account_circle_24"
+            android:title="@string/menu_edit_profile_instructor" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/baseline_logout_24"
+            android:title="@string/menu_logout" />
+    </group>
+</menu>

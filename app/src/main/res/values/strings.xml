@@ -24,4 +24,10 @@
     <string name="menu_view_profiles">View Profiles</string>
     <string name="menu_history_course">History of a course</string>
 
+    <string name="title_activity_instructor_home">InstructorHome</string>
+    <string name="menu_previous_taught_courses">Previous taught Courses</string>
+    <string name="menu_schedule">Schedule</string>
+    <string name="menu_list_students_course">List of students in a course</string>
+    <string name="menu_edit_profile_instructor">Edit Profile</string>
+
 </resources>

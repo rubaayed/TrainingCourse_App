@@ -77,13 +77,15 @@ public class MainActivity extends AppCompatActivity {
                             if(value.getString(2).equals("Admin")){
                                 Intent intent = new Intent(MainActivity.this,AdminHome.class);
                                 intent.putExtra("email", email.getText().toString());
-                                startActivity(intent);                            }else if(value.getString(2).equals("Student")){
+                                startActivity(intent);                            }
+                            else if(value.getString(2).equals("Student")){
                                 Intent intent = new Intent(MainActivity.this,StudentHome.class);
                                 intent.putExtra("email", email.getText().toString());
                                 startActivity(intent);
                             }else {
-                                Toast.makeText(MainActivity.this, "Instructor", Toast.LENGTH_SHORT).show();
-                            }
+                                Intent intent = new Intent(MainActivity.this,InstructorHome.class);
+                                intent.putExtra("email", email.getText().toString());
+                                startActivity(intent);                            }
                         }
                     }
                 }

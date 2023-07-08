@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation3"
+    app:startDestination="@+id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.example.trainingcourse_application.shared.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/previousTaughtCourses"
+        android:name="com.example.trainingcourse_application.instructor.previoustaughtcourses.PreviousTaughtCourses"
+        android:label="@string/menu_previous_taught_courses"
+        tools:layout="@layout/fragment_previoustaughtcourses" />
+
+    <fragment
+        android:id="@+id/schedule"
+        android:name="com.example.trainingcourse_application.instructor.schedule.Schedule"
+        android:label="@string/menu_schedule"
+        tools:layout="@layout/fragment_schedule" />
+
+    <fragment
+        android:id="@+id/listStudentsCourse"
+        android:name="com.example.trainingcourse_application.instructor.liststudentscourse.ListStudentsCourse"
+        android:label="@string/menu_list_students_course"
+        tools:layout="@layout/fragment_liststudentscourse" />
+
+    <fragment
+        android:id="@+id/editProfileInstructor"
+        android:name="com.example.trainingcourse_application.instructor.editprofileinstructor.EditProfileInstructor"
+        android:label="@string/menu_edit_profile_instructor"
+        tools:layout="@layout/fragment_editprofileinstructor" />
+
+    <fragment
+        android:id="@+id/logout"
+        android:name="com.example.trainingcourse_application.shared.logout.LogoutFragment"
+        android:label="@string/menu_logout"
+        tools:layout="@layout/fragment_logout" />
+
+</navigation>
