@@ -27,11 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
-
-        Intent intent = new Intent(MainActivity.this,AdminHome.class);
-        startActivity(intent);
-
-
+        
         final DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance(MainActivity.this);
 
         sharedPrefManager =SharedPrefManager.getInstance(this);
