@@ -320,6 +320,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(table, keyCol + " = ?", new String[]{condition});
     }
+
+    public Cursor getAllInstructors(){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT  EMAIL, FIRST_NAME, LAST_NAME" +
+                " FROM Instructor", null);
+    }
+
+    public boolean checkInstructorCourse(String email,int courseId) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+
+        // Execute the query
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT EXISTS (SELECT * FROM Instructor_Course " +
+                        "WHERE EMAIL_INST = '" + email + "' and ID_COURSE = " + courseId + ")",
+                null);
+
+        // Get the result value
+        boolean exists = false;
+        if (cursor != null && cursor.moveToFirst()) {
+            exists = cursor.getInt(0) == 1;
+        }
+
+        // Close the cursor and database
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return exists;
+    }
 }
 
 

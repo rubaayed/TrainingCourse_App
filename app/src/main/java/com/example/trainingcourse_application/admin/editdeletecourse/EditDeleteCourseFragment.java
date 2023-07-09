@@ -135,7 +135,6 @@ public class EditDeleteCourseFragment extends Fragment {
                         editLayout.setVisibility(View.INVISIBLE);
                         deleteLayout.setVisibility(View.VISIBLE);
                         courseId2.setText("Course ID: " + tmp[0]);
-
                     }
                     return true;
                 }
@@ -172,6 +171,7 @@ public class EditDeleteCourseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), Prerequisites.class);
+                i.putExtra("courseId",CourseID);
                 startActivityForResult(i,PICK_listView_REQUEST);
             }
         });
@@ -268,8 +268,6 @@ public class EditDeleteCourseFragment extends Fragment {
         Cursor allCoursesCursor = dataBaseHelper.getAllCourses();
         while (allCoursesCursor.moveToNext()){
             String tmp = allCoursesCursor.getString(0);
-            if(Integer.parseInt(tmp) == CourseID)
-                continue;
             tmp += ": ";
             tmp += allCoursesCursor.getString(1);
             courses.add(tmp);

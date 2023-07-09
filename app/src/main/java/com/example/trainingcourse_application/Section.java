@@ -5,16 +5,17 @@ public class Section {
     private int sectionId;
     private String email;
     private int courseId;
-    private int regDeadLine;
-    private int startDate;
+    private long regDeadLine;
+    private long startDate;
     private String schedule;
     private String venue;
+    private long endDate;
 
     public Section(){
 
     }
 
-    public Section(int sectionId, String email, int courseId, int regDeadLine, int startDate, String schedule, String venue){
+    public Section(int sectionId, String email, int courseId, long regDeadLine, long startDate, String schedule, String venue,long endDate){
         this.sectionId = sectionId;
         this.email = email;
         this.courseId = courseId;
@@ -22,6 +23,7 @@ public class Section {
         this.startDate = startDate;
         this.schedule = schedule;
         this.venue = venue;
+        this.endDate = endDate;
     }
 
     public int getSectionId() {
@@ -48,20 +50,28 @@ public class Section {
         this.courseId = courseId;
     }
 
-    public int getRegDeadLine() {
+    public long getRegDeadLine() {
         return regDeadLine;
     }
 
-    public void setRegDeadLine(int regDeadLine) {
+    public void setRegDeadLine(long regDeadLine) {
         this.regDeadLine = regDeadLine;
     }
 
-    public int getStartDate() {
+    public long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(int startDate) {
+    public void setStartDate(long startDate) {
         this.startDate = startDate;
+    }
+
+    public long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
     }
 
     public String getSchedule() {

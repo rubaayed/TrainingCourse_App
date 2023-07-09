@@ -24,6 +24,7 @@ public class Prerequisites extends AppCompatActivity {
 
     private ArrayList<String> selectedValues = new ArrayList<>();
     Button returnButton;
+    int CourseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,11 @@ public class Prerequisites extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listViewPrerequisites);
         returnButton = findViewById(R.id.returnButtonPrerequisites);
 
+        Intent intent = getIntent();
+        int back = intent.getIntExtra("courseId",-1);
+        if(back != -1){
+            CourseID = back;
+        }
         getAllCourses();
 
         if(list != null) {
@@ -76,6 +82,8 @@ public class Prerequisites extends AppCompatActivity {
         Cursor allCoursesCursor = dataBaseHelper.getAllCourses();
         while (allCoursesCursor.moveToNext()){
             String tmp = allCoursesCursor.getString(0);
+            if(Integer.parseInt(tmp) == CourseID)
+                continue;
             tmp += ": ";
             tmp += allCoursesCursor.getString(1);
             list.add(tmp);
