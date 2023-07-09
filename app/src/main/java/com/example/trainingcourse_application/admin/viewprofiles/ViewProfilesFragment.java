@@ -43,6 +43,7 @@ public class ViewProfilesFragment extends Fragment {
 
         // Initialize the database helper
        //dbHelper = new DataBaseHelper(container);
+       //cont
 
 */
         binding = FragmentViewprofilesBinding.inflate(inflater, container, false);
