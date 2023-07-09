@@ -14,23 +14,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.trainingcourse_application.DataBaseHelper;
 import com.example.trainingcourse_application.R;
 import com.example.trainingcourse_application.databinding.FragmentViewprofilesBinding;
 
 public class ViewProfilesFragment extends Fragment {
 
     private FragmentViewprofilesBinding binding;
-    private TextView textViewEmail;
+    /*private TextView textViewEmail;
     private TextView textViewFirstName;
     private TextView textViewLastName;
     private TextView textViewMobile;
     private TextView textViewAddress;
     private ImageView imageViewProfile;
 
-
+*/
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+/*
         View view = inflater.inflate(R.layout.fragment_viewprofiles, container, false);
 
         textViewEmail = view.findViewById(R.id.Email);
@@ -43,7 +44,7 @@ public class ViewProfilesFragment extends Fragment {
         // Initialize the database helper
        //dbHelper = new DataBaseHelper(container);
 
-
+*/
         binding = FragmentViewprofilesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
