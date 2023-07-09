@@ -185,14 +185,14 @@ public class EditprofileFragment extends Fragment {
     void fillValues(String email){
         DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance(getContext());
 
-        Cursor allSectionsCursor = dataBaseHelper.getStudentInfo(email);
-        allSectionsCursor.moveToNext();
+        Cursor StudentInfo = dataBaseHelper.getStudentInfo(email);
+        StudentInfo.moveToNext();
 
-        firstName.setText(allSectionsCursor.getString(0));
-        lastName.setText(allSectionsCursor.getString(1));
-        mobile.setText(allSectionsCursor.getString(2));
-        address.setText(allSectionsCursor.getString(3));
-        password.setText(allSectionsCursor.getString(4));
-        confirmPassword.setText(allSectionsCursor.getString(4));
+        firstName.setText(StudentInfo.getString(0));
+        lastName.setText(StudentInfo.getString(1));
+        mobile.setText(StudentInfo.getString(2));
+        address.setText(StudentInfo.getString(3));
+        password.setText(StudentInfo.getString(4));
+        confirmPassword.setText(StudentInfo.getString(4));
     }
 }

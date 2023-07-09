@@ -288,7 +288,7 @@ public class EditDeleteCourseFragment extends Fragment {
         title.setText(allSectionsCursor.getString(0));
         mainTopics.setText(allSectionsCursor.getString(1));
 
-        String pre = "";
+        String pre = "Prerequisites";
         Cursor course_Prerequisites = dataBaseHelper.getCoursePrerequisites(String.valueOf(courseid));
         while (course_Prerequisites.moveToNext()){
             String tmp = course_Prerequisites.getString(0);
@@ -298,7 +298,7 @@ public class EditDeleteCourseFragment extends Fragment {
             tmp += tmpCourseInfo.getString(0);
             pre += tmp + "\n";
         }
-        if( pre.equals("")){
+        if( pre.equals("Prerequisites")){
             pre = "Course has No Prerequisites";
         }
         prerequisites.setText(pre);

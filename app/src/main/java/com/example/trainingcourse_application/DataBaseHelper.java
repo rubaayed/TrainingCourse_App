@@ -347,6 +347,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return exists;
     }
+
+    public Cursor getInstructorInfo(String email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT  s.FIRST_NAME, s.LAST_NAME, s.MOBILE, s.ADDRESS, u.PASSWORD ,s.SPECIALIZATION, s.DEGREE " +
+                "FROM User u \n" +
+                "JOIN Instructor s ON s.EMAIL = u.EMAIL \n" +
+                "WHERE s.EMAIL = '" + email + "' ;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getInstructorCourses(String email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT  c.ID_COURSE " +
+                "FROM Instructor_Course c \n" +
+                "WHERE c.EMAIL_INST = '" + email + "' ;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
 }
 
 

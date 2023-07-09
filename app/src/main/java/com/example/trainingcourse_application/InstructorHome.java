@@ -28,6 +28,9 @@ public class InstructorHome extends AppCompatActivity {
         binding = ActivityInstructorHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String email = getIntent().getStringExtra("email");
+        InstructorHomeEmail.setEmailAddress(email);
+
         setSupportActionBar(binding.appBarInstructorHome.toolbar);
         binding.appBarInstructorHome.fab.setOnClickListener(new View.OnClickListener() {
             @Override
