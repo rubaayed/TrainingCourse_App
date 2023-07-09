@@ -153,8 +153,10 @@ public class CourseshistoryFragment extends Fragment {
         Cursor course_Prerequisites = dataBaseHelper.getCoursePrerequisites(String.valueOf(SectionInfo.getInt(1)));
         while (course_Prerequisites.moveToNext()){
             String tmp = course_Prerequisites.getString(0);
+            Cursor tmpCourseInfo = dataBaseHelper.getCourseInfo(tmp);
+            tmpCourseInfo.moveToNext();
             tmp += ": ";
-            tmp += course_Prerequisites.getString(1);
+            tmp += tmpCourseInfo.getString(0);
             pre += tmp + "\n";
         }
         if( pre.equals("")){

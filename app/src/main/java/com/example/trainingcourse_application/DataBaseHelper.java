@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "test3";
+    private static final String DATABASE_NAME = "test4";
     private static final int DATABASE_VERSION = 1;
     private static DataBaseHelper instance;
 
@@ -49,18 +49,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (ID_PRE) REFERENCES Course(COURSE_ID))");
 
         db.execSQL("CREATE TABLE Instructor_Course(ID_COURSE INTEGER,EMAIL_INST TEXT, PRIMARY KEY (ID_COURSE,EMAIL_INST)," +
-                "FOREIGN KEY (ID_COURSE) REFERENCES Course(COURSE_ID)," +
+                "FOREIGN KEY (ID_COURSE) REFERENCES Course(COURSE_ID) ON DELETE CASCADE," +
                 "FOREIGN KEY (EMAIL_INST) REFERENCES Instructor(EMAIL))");
 
         db.execSQL("CREATE TABLE Section(SECTION_ID INTEGER PRIMARY KEY AUTOINCREMENT,EMAIL TEXT,COURSE_ID INTEGER," +
                 " REG_DEADLINE LONG,START_DATE LONG, SCHEDULE TEXT, VENUE TEXT,END_DATE LONG," +
                 "FOREIGN KEY (EMAIL) REFERENCES Instructor(EMAIL)," +
-                "FOREIGN KEY (COURSE_ID) REFERENCES Course(COURSE_ID))");
+                "FOREIGN KEY (COURSE_ID) REFERENCES Course(COURSE_ID) ON DELETE CASCADE)");
 
         db.execSQL("CREATE TABLE Enrollment(SECTION_ID INTEGER ,EMAIL TEXT," +
                 " STATUS TEXT, PRIMARY KEY (SECTION_ID,EMAIL)," +
                 "FOREIGN KEY (EMAIL) REFERENCES Student(EMAIL)," +
-                "FOREIGN KEY (SECTION_ID) REFERENCES Section(SECTION_ID))");
+                "FOREIGN KEY (SECTION_ID) REFERENCES Section(SECTION_ID) ON DELETE CASCADE)");
     }
 
     @Override
@@ -225,7 +225,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public Cursor getCoursePrerequisites(String course_id){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        String query = "SELECT c.COURSE_ID, c.TITLE \n" +
+        String query = "SELECT p.ID_PRE \n" +
                 "FROM Course c \n" +
                 "JOIN Prerequisite p ON p.ID_1 = c.COURSE_ID \n" +
                 "WHERE c.COURSE_ID = " + course_id + " ;";
@@ -300,6 +300,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(column, newValue);
 
         sqLiteDatabase.update(table, values, keyCol + " = ?", new String[]{condition});
+    }
+
+    public Cursor NextPossibleCourse(){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT * FROM Course;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getCourseInfo(String courseId){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT  c.TITLE, c.MAIN_TOPICS " +
+                "FROM Course c \n" +
+                "WHERE c.COURSE_ID = " + courseId + " ;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public void deleteData(String table, String condition, String keyCol){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(table, keyCol + " = ?", new String[]{condition});
     }
 }
 

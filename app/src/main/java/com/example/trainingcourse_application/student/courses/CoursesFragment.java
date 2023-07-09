@@ -178,8 +178,10 @@ public class CoursesFragment extends Fragment {
         Cursor course_Prerequisites = dataBaseHelper.getCoursePrerequisites(String.valueOf(SectionInfo.getInt(1)));
         while (course_Prerequisites.moveToNext()){
             String tmp = course_Prerequisites.getString(0);
+            Cursor tmpCourseInfo = dataBaseHelper.getCourseInfo(tmp);
+            tmpCourseInfo.moveToNext();
             tmp += ": ";
-            tmp += course_Prerequisites.getString(1);
+            tmp += tmpCourseInfo.getString(0);
             pre += tmp + "\n";
         }
         if( pre.equals("")){
@@ -213,12 +215,12 @@ public class CoursesFragment extends Fragment {
         while (course_Prerequisites.moveToNext()){
             String tmp = course_Prerequisites.getString(0);
             Cursor endDate = dataBaseHelper.getEndDateOfSection(email,tmp);
-
-            long currentSeconds = Instant.now().getEpochSecond();
-
-            if(currentSeconds < endDate.getInt(0)){
-                flag = false;
-                break;
+            if(endDate.moveToNext()) {
+                long currentSeconds = Instant.now().getEpochSecond();
+                if (currentSeconds < endDate.getInt(0)) {
+                    flag = false;
+                    break;
+                }
             }
         }
 

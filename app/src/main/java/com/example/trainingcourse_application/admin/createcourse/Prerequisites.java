@@ -1,4 +1,4 @@
-package com.example.trainingcourse_application;
+package com.example.trainingcourse_application.admin.createcourse;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,11 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.example.trainingcourse_application.DataBaseHelper;
+import com.example.trainingcourse_application.R;
+import com.example.trainingcourse_application.listView;
 
 import java.util.ArrayList;
 
-public class listView extends AppCompatActivity {
+public class Prerequisites extends AppCompatActivity {
 
     private ArrayList<String> list = null;
 
@@ -25,10 +28,10 @@ public class listView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_view);
+        setContentView(R.layout.activity_prerequisites);
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        returnButton = findViewById(R.id.returnButton);
+        ListView listView = (ListView) findViewById(R.id.listViewPrerequisites);
+        returnButton = findViewById(R.id.returnButtonPrerequisites);
 
         getAllCourses();
 
@@ -61,11 +64,10 @@ public class listView extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     void getAllCourses(){
-        DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance(listView.this);
+        DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance(Prerequisites.this);
         if(list != null)
             list.clear();
         else

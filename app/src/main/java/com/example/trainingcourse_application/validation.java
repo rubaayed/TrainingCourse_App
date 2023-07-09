@@ -50,4 +50,16 @@ public class validation {
             return false;
         return true;
     }
+
+    public static boolean checkTitle(String title){
+        if(title.length() > 32 || title == null || title.length() == 0)
+            return false;
+        return true;
+    }
+
+    public static boolean checkMainTopics(String mainTopics){
+        if(mainTopics == null || mainTopics.length() == 0)
+            return false;
+        return true;
+    }
 }
