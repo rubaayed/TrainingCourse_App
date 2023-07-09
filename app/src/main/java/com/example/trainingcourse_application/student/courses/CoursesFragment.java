@@ -191,21 +191,22 @@ public class CoursesFragment extends Fragment {
         String nameInstructor = SectionInfo.getString(5) + " " + SectionInfo.getString(6);
         courseInstructorName.setText(nameInstructor);
 
-        Date date = new Date(SectionInfo.getInt(7) * 1000);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(SectionInfo.getLong(7) * 1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
         String dateString = dateFormat.format(date);
         courseRegistrationDeadline.setText(dateString);
 
-        date = new Date(SectionInfo.getInt(8) * 1000);
+        date = new Date(SectionInfo.getLong(8) * 1000);
         dateString = dateFormat.format(date);
         courseStartDate.setText(dateString);
 
         courseSchedule.setText(SectionInfo.getString(9));
-        courseSchedule.setText(SectionInfo.getString(10));
+        courseVenue.setText(SectionInfo.getString(10));
 
-        date = new Date(SectionInfo.getInt(11) * 1000);
+        date = new Date(SectionInfo.getLong(11) * 1000);
         dateString = dateFormat.format(date);
         courseEndDate.setText(dateString);
+
     }
 
     public void checkIfRegisterPossible(String email, String course_id){
@@ -217,7 +218,7 @@ public class CoursesFragment extends Fragment {
             Cursor endDate = dataBaseHelper.getEndDateOfSection(email,tmp);
             if(endDate.moveToNext()) {
                 long currentSeconds = Instant.now().getEpochSecond();
-                if (currentSeconds < endDate.getInt(0)) {
+                if (currentSeconds < endDate.getLong(0)) {
                     flag = false;
                     break;
                 }

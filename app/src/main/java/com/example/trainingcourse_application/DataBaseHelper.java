@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "test4";
+    private static final String DATABASE_NAME = "Final";
     private static final int DATABASE_VERSION = 1;
     private static DataBaseHelper instance;
 
@@ -152,6 +152,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("COURSE_ID", section.getCourseId());
         contentValues.put("REG_DEADLINE", section.getRegDeadLine());
         contentValues.put("START_DATE", section.getStartDate());
+        contentValues.put("END_DATE", section.getEndDate());
         contentValues.put("SCHEDULE", section.getSchedule());
         contentValues.put("VENUE", section.getVenue());
 
@@ -215,7 +216,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public Cursor getSectionInfo(String sectionId){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         String query = "SELECT s.SECTION_ID,c.COURSE_ID,c.TITLE,c.MAIN_TOPICS,c.IMAGE," +
-                "i.FIRSTNAME, i.LASTNAME, s.REG_DEADLINE, s.START_DATE, s.SCHEDULE , s.VENUE , s.END_DATE \n" +
+                "i.FIRST_NAME, i.LAST_NAME, s.REG_DEADLINE, s.START_DATE, s.SCHEDULE , s.VENUE , s.END_DATE \n" +
                 "FROM Course c \n" +
                 "JOIN Section s ON c.COURSE_ID = s.COURSE_ID " +
                 "JOIN Instructor i ON s.EMAIL = i.EMAIL \n" +
@@ -245,7 +246,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         String query = "SELECT s.SCHEDULE \n" +
                 "FROM Section s \n" +
-                "JOIN Enrollment e ON e.COURSE_ID = s.COURSE_ID \n" +
+                "JOIN Enrollment e ON e.SECTION_ID = s.SECTION_ID \n" +
                 "WHERE e.EMAIL = '"+ email +"' and (" +
                 "( " + start_date + " >= s.START_DATE and " + start_date + " <= s.END_DATE ) OR " +
                 "( " + end_date + " >= s.START_DATE and " + end_date + " <= s.END_DATE ) OR " +
@@ -364,6 +365,48 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "WHERE c.EMAIL_INST = '" + email + "' ;";
         return sqLiteDatabase.rawQuery(query, null);
     }
+
+    public void acceptApplication(String table, String condition1,String condition2, String column, String newValue, String keyCol1, String keyCol2) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(column, newValue);
+
+        String selection = keyCol1 + " = ? AND " + keyCol2 + " = ?";
+        String[] selectionArgs = {condition1, condition2};
+
+        sqLiteDatabase.update(table, values, selection, selectionArgs);
+    }
+
+    public Cursor getWaitingStudents(){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT  e.SECTION_ID, e.EMAIL " +
+                "FROM Enrollment e \n" +
+                "WHERE e.STATUS = 'Waiting' ;";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getInfoForAcceptAndReject(String sec, String email){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT  e.SECTION_ID, e.EMAIL, s.FIRST_NAME, s.LAST_NAME, c.TITLE " +
+                "FROM Enrollment e \n" +
+                "JOIN Student s ON s.EMAIL = e.EMAIL \n" +
+                "JOIN Section q ON q.SECTION_ID = e.SECTION_ID \n" +
+                "JOIN Course c ON c.COURSE_ID = q.COURSE_ID \n" +
+                "WHERE e.SECTION_ID = "+ sec +" and e.EMAIL = '" + email + "';";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
+    public Cursor getStudentsNumber(String sec){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String query = "SELECT COUNT(*) \n" +
+                "FROM Section s \n" +
+                "JOIN Enrollment e ON s.SECTION_ID = e.SECTION_ID \n" +
+                "WHERE s.SECTION_ID = " + sec + " \n" +
+                "  AND e.status = 'Accept';";
+        return sqLiteDatabase.rawQuery(query, null);
+    }
+
 }
 
 
