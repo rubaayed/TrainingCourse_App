@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".listView">
 
-    <LinearLayout
-        android:id="@+id/upperPart"
+    <TextView
+        android:id="@+id/PTC_Text"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:text="Previous Tought Course"
+        android:textAlignment="center"
+        android:textColor="@color/purple"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/PreviousTaughtCourses"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:fontFamily="casual"
-            android:text="Previous Taught Courses"
-            android:textAlignment="center"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+    <ListView
+        android:id="@+id/PTC_listView"
+        android:layout_width="match_parent"
+        android:layout_height="598dp">
 
-        <ListView
-            android:id="@+id/ListView_PTaught_Courses"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            tools:visibility="visible" />
-    </LinearLayout>
+    </ListView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
