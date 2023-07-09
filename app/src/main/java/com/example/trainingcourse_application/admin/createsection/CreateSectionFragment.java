@@ -296,7 +296,7 @@ public class CreateSectionFragment extends Fragment {
     }
 
     boolean isDateLessThan( String dateString1, String dateString2){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
 
         try {
             Date date1 = dateFormat.parse(dateString1);
@@ -343,12 +343,12 @@ public class CreateSectionFragment extends Fragment {
     }
 
     long convertDateToSeconds(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
 
         try {
             Date date = dateFormat.parse(dateString);
-            long milliseconds = date.getTime();
-            return TimeUnit.MILLISECONDS.toSeconds(milliseconds);
+            long milliseconds = date.getTime()/1000;
+            return milliseconds;
         } catch (ParseException e) {
             e.printStackTrace();
             return -1;
